@@ -81,6 +81,12 @@ bool Gradient::Optimize(std::vector<double> *funcLoc, double *funcVal)
     // Return results
     *funcLoc = m_currentPoint;
     *funcVal = m_objectFunc(&m_currentPoint);
+
+    if (gradientMagnitude <= m_gradientThresh)
+    {
+        return true;
+    }
+    return false;
 }
 
 // Function to compute gradient in the specified dimension
