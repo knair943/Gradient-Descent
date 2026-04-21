@@ -1,2 +1,2 @@
-# Gradient-Descent
-Contains the files for a simple implementation of the gradient descent optimizer in C++
+# Gradient-Descent Optimizer
+A lightweight C++ implementation of gradient descent for minimizing arbitrary functions. The optimizer uses numerical differentiation to compute gradients and iteratively updates the current position until it converges to a minimum or hits a maximum iteration count. The user can plug in any objective function, set a start point, step size, and iteration limit, and the optimizer will return the location and value of the minimum.
