@@ -42,7 +42,7 @@ void Gradient::SetMaxIterations(int maxIterations)
     m_maxIter = maxIterations;
 }
 
-// Function to set gradient magnitude threshhold (stopping condition).
+// Function to set gradient magnitude threshold (stopping condition).
 void Gradient::SetGradientThresh(double gradientThresh)
 {
     m_gradientThresh = gradientThresh;
