@@ -1,5 +1,6 @@
 #include "Gradient.h"
 #include <math.h>
+#include <iostream>
 
 Gradient::Gradient()
 {
@@ -8,7 +9,7 @@ Gradient::Gradient()
     m_stepSize = 0.0;
     m_maxIter = 1;
     m_h = 0.001;
-    m_gradientThresh = 1e-09;
+    m_gradientThresh = 1e-06;
 }
 
 Gradient::~Gradient()
@@ -64,6 +65,11 @@ bool Gradient::Optimize(std::vector<double> *funcLoc, double *funcVal)
         std::vector<double> gradientVector = ComputeGradientVector();
         gradientMagnitude = ComputeGradientMagnitude(gradientVector);
 
+        if (iterCount % 5 == 0)
+        {
+            std::cout << "Iter: " << iterCount << " Gradient Magnitude: " << gradientMagnitude << std::endl;
+        }
+
         // Compute new point
         std::vector<double> newPoint = m_currentPoint;
         for (int i = 0; i < m_nDims; i++)
@@ -94,16 +100,18 @@ double Gradient::ComputeGradient(int dim)
 {
     // Make copy of the current location
     std::vector<double> newPoint = m_currentPoint;
+    std::vector<double> prevPoint = m_currentPoint;
 
     // Modify copy according to h and dim
     newPoint[dim] += m_h;
+    prevPoint[dim] -= m_h;
 
     // Compute two function values for these points
-    double funcVal1 = m_objectFunc(&m_currentPoint);
-    double funcVal2 = m_objectFunc(&newPoint);
+    double funcVal1 = m_objectFunc(&newPoint);
+    double funcVal2 = m_objectFunc(&prevPoint);
 
-    // Compute approximate numerical gradient
-    return (funcVal2 - funcVal1) / m_h;
+    // Compute approximate numerical gradient: using central difference
+    return (funcVal1 - funcVal2) / (2 * m_h);
 }
 
 // Function to compute the gradient vector
